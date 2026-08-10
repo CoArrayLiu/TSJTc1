@@ -18,7 +18,6 @@ dev = ["pytest>=8.0"]
 
 [project.scripts]
 tsjt-c1 = "tsjt_c1.run:main"
-tsjt-c2 = "tsjt_c2.run:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
