@@ -1,0 +1,75 @@
+run:
+  seed: 2025
+  device: cuda:0
+  output_dir: outputs/tsjt_c1_pemsbay_seed2025
+  num_workers: 0
+  resume: true
+  skip_complete: true
+  formal: true
+data:
+  root: data
+  sources:
+    - {city: metr-la, steps_per_day: 288, history: 12, horizon: 12,
+       stride: 4, train_ratio: 0.7, val_ratio: 0.1}
+    - {city: chengdu, steps_per_day: 144, history: 6, horizon: 6,
+       stride: 4, train_ratio: 0.7, val_ratio: 0.1}
+    - {city: shenzhen, steps_per_day: 144, history: 6, horizon: 6,
+       stride: 4, train_ratio: 0.7, val_ratio: 0.1}
+  target:
+    city: pems-bay
+    steps_per_day: 288
+    history: 12
+    horizon: 12
+    train_days: 3
+    train_stride: 1
+    test_stride: 1
+    allow_prior_split_history: false
+model:
+  factory: tsjt_c1.models.c1:TSJTC1
+  candidate_id: C1
+  kwargs:
+    backbone: graph_wavenet
+    input_dim: 3
+    hidden_dim: 32
+    heads: 4
+    dropout: 0.1
+    prompt_bank_rule: half_target_nodes
+    prompt_bank_size: 162
+    canonical_history: 12
+    prompt_query_chunk_size: 256
+    gwn_residual_channels: 32
+    gwn_dilation_channels: 32
+    gwn_skip_channels: 64
+    gwn_end_channels: 128
+    gwn_blocks: 2
+    gwn_layers: 2
+    gwn_kernel_size: 2
+    diffusion_order: 2
+    use_reverse_support: true
+    use_knowledge_graph: true
+    supported_horizons: [6, 12]
+    prompt_feature_mode: npm
+    graph_mode: prompt
+    disable_npm_when_unused: true
+    last_value_residual: true
+    decoder_mode: shared
+    cprr_cap: 0.5
+train:
+  transfer_mode: fixed_tsb
+  epochs: 50
+  max_epochs: 50
+  target_batch_size: 4
+  source_batch_size: 124
+  source_microbatch_size: 42
+  gamma_target: 0.001
+  gamma_source: 0.0005
+  save_every: 1
+evaluation:
+  batch_size: 64
+  full_test: true
+  evaluate_once_after_epoch: 50
+notes:
+  - Locked formal TSJT-C1 model under the TAPSTAR-aligned protocol.
+  - Paths are relative to the handoff repository root; launch commands must run there.
+  - Source val_ratio values only preserve TAPSTAR source split boundaries; no validation or model selection is run.
+  - The full official PEMS-BAY test is accessed exactly once, after epoch 50.
