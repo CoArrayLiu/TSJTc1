@@ -1,8 +1,6 @@
-# TSJT-C1 
+# TSJT-C1
 
-这是从旧交接项目中整理出的清晰实验仓库：**TSJT-C1** 是冻结基线，
-**TSJT-C2** 是同频率双城 6→6 新协议。仓库不再暴露 v2、v3、screening、
-ablation 等旧交接项目中的混杂入口。
+这是从旧交接项目中整理出的清晰实验仓库：**TSJT-C1** 是冻结基线。
 
 ## 运行
 
@@ -33,9 +31,7 @@ PYTHONPATH=src python -m pytest -q
 
 ```text
 configs/c1.yaml          冻结 C1 配置
-configs/c2/              四个 C2 迁移方向配置
 src/tsjt_c1/             冻结 C1 基线代码包
-src/tsjt_c2/             C2 双城协议代码包
   data/                  数据读取、切分、归一化、指标
   models/                图骨干、Dense NPM、共享解码器、C1/CPRR
   training/              fixed TSB 更新与运行时支持

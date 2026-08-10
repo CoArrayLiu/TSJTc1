@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tsjt"
 version = "0.2.0"
-description = "TSJT C1 baseline and C2 paired-city traffic forecasting experiments"
+description = "TSJT C1 traffic forecasting experiment"
 requires-python = ">=3.10"
 dependencies = [
   "numpy>=1.24",
